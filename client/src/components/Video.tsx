@@ -1,6 +1,7 @@
 import { Camera, CameraOff, Mic, MicOff, Phone, PhoneOff } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import useSocket from '../hooks/useSocket';
+import VideoPlayer from './VideoPlayer';
 
 type User = {
   _id: string;
@@ -19,7 +20,7 @@ const Video = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(true); 
   const [stream, setVideoStream] = useState<MediaStream | null>(null)
-
+  const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null);
 
   useEffect(() => {
     if(!socket) return
@@ -63,14 +64,14 @@ const Video = () => {
         video: true,
         audio: true,
       });
-  
+      
       setVideoStream(vcStream)
   
       setIsInCall(true);
       setIncomingCall(null);
+      
+      
   
-      // You might want to emit something like "call_accepted" here to notify the caller
-      // socket.emit("call_accepted", { stream info if needed });
   
     } catch (error) {
       console.error("Error accessing camera and microphone:", error);
@@ -221,11 +222,12 @@ const Video = () => {
                     </div>
                   </div>
                   <div className="aspect-video bg-gray-800 rounded-lg overflow-hidden relative">
-                    <img
+                    {/* <img
                       src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=800&q=80"
                       alt="Video participant 2"
                       className="w-full h-full object-cover"
-                    />
+                    /> */}
+                    <VideoPlayer stream={stream} muted={false}/>
                     <div className="absolute bottom-4 left-4 bg-black bg-opacity-50 px-3 py-1 rounded-lg">
                       <span className="text-white text-sm">You</span>
                     </div>

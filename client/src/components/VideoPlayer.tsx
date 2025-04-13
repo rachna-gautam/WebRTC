@@ -15,6 +15,8 @@ const VideoPlayer = ({ stream, muted = false }: { stream: MediaStream | null; mu
         autoPlay
         playsInline
         muted={muted}
+        height={200}
+        width={200}
         className="w-full h-full rounded-lg object-cover"
       />
     );
